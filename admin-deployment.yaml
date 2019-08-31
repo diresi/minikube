@@ -1,0 +1,40 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.18.0 (06a2e56)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: admin
+  name: admin
+spec:
+  replicas: 1
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        io.kompose.service: admin
+    spec:
+      containers:
+      - env:
+        - name: PMA_ABSOLUTE_URI
+          value: http://doctor2:31861/admin/
+        - name: PMA_ARBITRARY
+          value: "yes"
+        - name: PMA_HOST
+          value: db
+        - name: PMA_PASSWORD
+          value: eoj
+        - name: PMA_PORT
+          value: "3306"
+        - name: PMA_USER
+          value: joe
+        image: phpmyadmin/phpmyadmin
+        name: admin
+        ports:
+        - containerPort: 8080
+        resources: {}
+      restartPolicy: Always
+status: {}
