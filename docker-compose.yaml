@@ -16,17 +16,13 @@ services:
             - PMA_PORT=3306
             - PMA_USER=joe
             - PMA_PASSWORD=eoj
-            - PMA_ABSOLUTE_URI=${HOSTNAME}:8080/admin/
+            - PMA_ABSOLUTE_URI=http://${HOSTNAME}/admin/
 
     entry:
         image: nginx
         ports:
-            - "8080:80"
-        environment:
-               - NGINX_HOST=${HOSTNAME}
-               - NGINX_PORT=80
-               - DOLLAR=$$
+            - "80:80"
         volumes:
-            - ./nginx.default.conf:/etc/nginx/conf.d/default.conf
+            - ./nginx.conf.d:/etc/nginx/conf.d/
         command: nginx -g 'daemon off;'
 
