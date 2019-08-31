@@ -1,0 +1,32 @@
+version: "3.7"
+services:
+    db:
+        image: mariadb
+        environment:
+            - MYSQL_ROOT_PASSWORD=root
+            - MYSQL_USER=joe
+            - MYSQL_PASSWORD=eoj
+            - MYSQL_DATABASE=test
+
+    admin:
+        image: phpmyadmin/phpmyadmin
+        environment:
+            - PMA_ARBITRARY=yes
+            - PMA_HOST=db
+            - PMA_PORT=3306
+            - PMA_USER=joe
+            - PMA_PASSWORD=eoj
+            - PMA_ABSOLUTE_URI=${HOSTNAME}:8080/admin/
+
+    entry:
+        image: nginx
+        ports:
+            - "8080:80"
+        environment:
+               - NGINX_HOST=${HOSTNAME}
+               - NGINX_PORT=80
+               - DOLLAR=$$
+        volumes:
+            - ./nginx.default.conf:/etc/nginx/conf.d/default.conf
+        command: nginx -g 'daemon off;'
+
